@@ -34,6 +34,8 @@ ml = [
     "torchvision>=0.17",
     "onnx>=1.15",
     "onnxruntime>=1.17",
+    "huggingface-hub>=0.23",
+    "pyarrow>=15.0",
 ]
 mobile = [
     "tensorflow>=2.15",
