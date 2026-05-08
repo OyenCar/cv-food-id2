@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cvfoodid"
+version = "0.1.0"
+description = "Hybrid CV pipeline for Indonesian food: ingredient detection + portion estimation + nutrition lookup"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "valnez", email = "valnez@ojek.me" }]
+keywords = ["computer-vision", "food", "nutrition", "indonesia", "yolo", "tflite", "mobile"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "numpy>=1.26",
+    "opencv-python-headless>=4.9",
+    "pillow>=10.0",
+    "pandas>=2.0",
+    "pyyaml>=6.0",
+    "scipy>=1.11",
+]
+
+[project.optional-dependencies]
+ml = [
+    "ultralytics>=8.3",
+    "torch>=2.2",
+    "torchvision>=0.17",
+    "onnx>=1.15",
+    "onnxruntime>=1.17",
+]
+mobile = [
+    "tensorflow>=2.15",
+    "tflite-runtime>=2.14; platform_system != 'Windows'",
+]
+demo = [
+    "gradio>=4.20",
+    "matplotlib>=3.8",
+]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=4.1",
+    "ruff>=0.4",
+    "mypy>=1.10",
+    "types-PyYAML",
+    "pandas-stubs",
+]
+
+[project.scripts]
+cvfoodid-detect = "cvfoodid.cli:detect_cmd"
+cvfoodid-train = "cvfoodid.cli:train_cmd"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+cvfoodid = ["data/*.csv", "data/*.json"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "N", "C4", "SIM"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q"

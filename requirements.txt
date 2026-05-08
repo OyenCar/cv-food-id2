@@ -1,0 +1,26 @@
+# Pinned for reproducibility on Colab/Kaggle (Python 3.10/3.11)
+# Install with: pip install -r requirements.txt
+# For mobile export, also install: pip install tensorflow
+
+# Core
+numpy>=1.26,<2.0
+opencv-python-headless>=4.9
+pillow>=10.0
+pandas>=2.0
+pyyaml>=6.0
+scipy>=1.11
+
+# ML
+ultralytics>=8.3
+torch>=2.2
+torchvision>=0.17
+onnx>=1.15
+onnxruntime>=1.17
+
+# Demo (optional)
+gradio>=4.20
+matplotlib>=3.8
+
+# Dev
+pytest>=8.0
+ruff>=0.4

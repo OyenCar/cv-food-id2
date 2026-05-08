@@ -1,0 +1,78 @@
+# YOLOv8 dataset config for cvfoodid ingredient detection.
+#
+# After running scripts/prepare_yolo_dataset.py the directory layout is:
+#   data/processed/yolo/
+#     ├── images/
+#     │   ├── train/
+#     │   └── val/
+#     └── labels/
+#         ├── train/
+#         └── val/
+#
+# The class names below MUST match the ingredient IDs in
+# data/nutrition/tkpi_lookup.csv so that detection -> nutrition lookup works
+# without remapping.
+
+path: ../data/processed/yolo
+train: images/train
+val: images/val
+test: # optional
+
+# Subset of TKPI ingredients used as YOLO classes. Add/remove entries here
+# AND in tkpi_lookup.csv to keep them in sync.
+names:
+  0: nasi_putih
+  1: nasi_kuning
+  2: nasi_uduk
+  3: mie
+  4: bihun
+  5: kentang
+  6: roti_putih
+  7: lontong
+  8: daging_sapi
+  9: daging_ayam
+  10: ayam_goreng
+  11: bebek
+  12: ikan
+  13: udang
+  14: telur_ayam
+  15: telur_dadar
+  16: tahu
+  17: tempe
+  18: bakso
+  19: sosis
+  20: sayur_bayam
+  21: sayur_kangkung
+  22: sayur_kol
+  23: sayur_sawi
+  24: sayur_kacang_panjang
+  25: sayur_buncis
+  26: sayur_wortel
+  27: sayur_terong
+  28: sayur_taoge
+  29: sayur_jagung
+  30: timun
+  31: tomat
+  32: bawang_merah
+  33: bawang_putih
+  34: cabai_merah
+  35: cabai_rawit
+  36: santan
+  37: kecap_manis
+  38: saus_kacang
+  39: sambal
+  40: kerupuk
+  41: pisang
+  42: jeruk
+  43: apel
+  44: mangga
+  45: nangka_muda
+  46: kuah_soto
+  47: kuah_bakso
+  48: kuah_rendang
+  49: kuah_gulai
+  # Reference objects -- detected for scale, excluded from nutrition.
+  50: coin_idr_500
+  51: coin_idr_1000
+  52: ktp
+  53: spoon_table
