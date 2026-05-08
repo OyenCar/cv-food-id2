@@ -45,10 +45,15 @@ class Source:
 SOURCES: list[Source] = [
     Source(
         name="foodseg103",
-        url="https://research.larc.smu.edu.sg/downloads/datarepo/FoodSeg103.zip",
+        url="EduardoPacheco/FoodSeg103",
         license="Apache-2.0",
-        notes="Password 'LARCdataset9947' required. Ingredient-level masks (103 classes).",
-        handler="http_zip",
+        notes=(
+            "HuggingFace mirror of FoodSeg103 (ingredient-level masks, 103 classes). "
+            "The canonical SMU URL times out from Colab, so the HF parquet shards are "
+            "downloaded via scripts/foodseg103_from_hf.py and re-emitted in the "
+            "original SMU folder layout."
+        ),
+        handler="foodseg103_hf",
     ),
     Source(
         name="foodinsseg",
@@ -144,6 +149,15 @@ def fetch_kaggle(src: Source, root: Path) -> Path:
     return target
 
 
+def fetch_foodseg103_hf(src: Source, root: Path) -> Path:
+    """Stage FoodSeg103 in the SMU layout using the HuggingFace mirror."""
+    target = root / src.name / "FoodSeg103"
+    cmd = [sys.executable, "scripts/foodseg103_from_hf.py", "--out", str(target)]
+    print(f"[{src.name}] running: {' '.join(cmd)}")
+    subprocess.run(cmd, check=True)
+    return target
+
+
 def fetch_manual(src: Source, root: Path) -> Path:
     target = root / src.name
     target.mkdir(parents=True, exist_ok=True)
@@ -165,6 +179,8 @@ def fetch(src: Source, root: Path) -> Path:
         return fetch_git(src, root)
     if src.handler == "kaggle":
         return fetch_kaggle(src, root)
+    if src.handler == "foodseg103_hf":
+        return fetch_foodseg103_hf(src, root)
     return fetch_manual(src, root)
 
 
