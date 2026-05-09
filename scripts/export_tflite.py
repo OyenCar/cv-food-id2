@@ -5,15 +5,16 @@ Pipeline::
     YOLO .pt -> ONNX -> TFLite (INT8 with representative dataset)
 
 The script uses Ultralytics' built-in exporter, which handles ONNX -> TF
-SavedModel -> TFLite under the hood. INT8 quantization needs ~100 sample
-images for calibration (use a held-out slice of your val set).
+SavedModel -> TFLite under the hood. INT8 quantization needs a representative
+dataset for calibration; Ultralytics samples it automatically from the
+``val`` split declared in the dataset YAML.
 
 Usage::
 
     python scripts/export_tflite.py \
         --weights runs/detect/cvfoodid-yolo/weights/best.pt \
         --imgsz 640 \
-        --calib data/processed/yolo/images/val \
+        --calib configs/data.yaml \
         --int8
 """
 
@@ -31,7 +32,11 @@ def main() -> int:
     parser.add_argument("--int8", action="store_true",
                         help="INT8 post-training quantization (smaller, faster on mobile).")
     parser.add_argument("--calib", default=None,
-                        help="Calibration images directory for INT8.")
+                        help="Path to the dataset YAML used for INT8 "
+                             "calibration. Ultralytics samples ~100 "
+                             "images from the YAML's ``val`` split. Pass "
+                             "the same YAML you trained with, e.g. "
+                             "configs/data.yaml.")
     parser.add_argument("--device", default="cpu")
     args = parser.parse_args()
 
