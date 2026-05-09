@@ -54,6 +54,12 @@ def main() -> int:
     parser.add_argument("--patience", type=int, default=None,
                         help="Early-stop epochs (Ultralytics default 100). "
                              "Lower this on Colab to stop before runtime cap.")
+    parser.add_argument("--save-period", type=int, default=None,
+                        dest="save_period",
+                        help="Save weights/epoch{N}.pt every N epochs in "
+                             "addition to last.pt and best.pt. -1 disables "
+                             "the periodic snapshots; 10 is a good fit for "
+                             "Colab Free.")
     parser.add_argument("--resume", action="store_true",
                         help="Resume from {project}/{name}/weights/last.pt if "
                              "it exists; otherwise start fresh.")
@@ -74,6 +80,8 @@ def main() -> int:
         cfg["cache"] = args.cache
     if args.patience is not None:
         cfg["patience"] = args.patience
+    if args.save_period is not None:
+        cfg["save_period"] = args.save_period
 
     # Resolve --resume to an explicit checkpoint path so the call is
     # idempotent: re-running the same cell after a disconnect picks up where
