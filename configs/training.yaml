@@ -4,6 +4,11 @@
 epochs: 100
 imgsz: 640
 batch: 16
+# Save weights/epoch{N}.pt every 10 epochs in addition to last.pt (updated
+# each epoch) and best.pt. Combined with --project pointing at Drive, this
+# means a Colab disconnect at epoch 73 still leaves weights/epoch70.pt on
+# Drive — losing at most ~10 epochs (~15 min) of work instead of everything.
+save_period: 10
 lr0: 0.01
 lrf: 0.01
 momentum: 0.937
